@@ -20,7 +20,7 @@ export class Zombie extends Actor {
 
     zombieRandomPosition() {
         this.pos = new Vector(Math.random() * 800, Math.random() * 600);
-        this.vel = new Vector(Math.random() * 50, Math.random() * 50);
+        this.vel = new Vector(Math.random() * 50, Math.random() * 100);
         this.scale = new Vector(0.52, 0.52)
 
         if (this.vel.x > 0) {

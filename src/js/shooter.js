@@ -1,4 +1,4 @@
-import { Actor, Vector } from "excalibur";
+import { Actor, Keys, Vector } from "excalibur";
 import { Resources } from './resources.js';
 
 
@@ -35,6 +35,9 @@ export class Shooter extends Actor {
       if (engine.input.keyboard.isHeld("ArrowRight")) {
          xspeed = this.speed;
       }
+      if (engine.input.keyboard.wasPressed(Keys.Space)) {
+         console.log("SHOOT MOFO!")
+      } 
 
       this.vel = new Vector(xspeed * 200, yspeed * 200);
    }
