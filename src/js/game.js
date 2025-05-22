@@ -26,16 +26,13 @@ export class Game extends Engine {
         const shooter = new Shooter()
         this.add(shooter)
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 8; i++) {
             const zombie = new Zombie()
             this.add(zombie)
         }
 
     }
 
-    catleft(e) {
-        e.target.pos = new Vector(1350, 300)
-    }
 }
 
 new Game()

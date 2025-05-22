@@ -3,14 +3,20 @@ import { Resources } from './resources.js';
 
 
 export class Shooter extends Actor {
+
+   constructor() {
+      super({width:Resources.Shooter.width, height:Resources.Shooter.height});
+      
+   }
    speed = 3;
-   onInitialize() {
+   onInitialize(engine) {
       this.graphics.use(Resources.Shooter.toSprite());
       this.pos = new Vector(1, 500);
       this.scale = new Vector(0.18, 0.18);
-      if (this.vel.x > 0) {
-         this.graphics.flipHorizontal = true;
-      }
+      // if (this.vel.x > 0) {
+      //    this.graphics.flipHorizontal = true;
+      // }
+      
    }
 
    onPreUpdate(engine) {
