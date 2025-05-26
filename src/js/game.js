@@ -6,7 +6,8 @@ import { Zombie } from './zombie.js'
 import { Background } from './background.js'
 
 export class Game extends Engine {
-
+    shooter 
+    
     constructor() {
         super({
             width: 1280,

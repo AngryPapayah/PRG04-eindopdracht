@@ -3,6 +3,7 @@ import { Resources } from './resources.js';
 
 
 export class Shooter extends Actor {
+   
 
    constructor() {
       super({width:Resources.Shooter.width, height:Resources.Shooter.height});
