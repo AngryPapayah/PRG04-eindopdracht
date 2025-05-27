@@ -10,14 +10,12 @@ export class Shooter extends Actor {
       
    }
    speed = 3;
+   lastDirection = new Vector(1, 0); // standaard naar rechts
+
    onInitialize(engine) {
       this.graphics.use(Resources.Shooter.toSprite());
       this.pos = new Vector(1, 500);
       this.scale = new Vector(0.18, 0.18);
-      // if (this.vel.x > 0) {
-      //    this.graphics.flipHorizontal = true;
-      // }
-      
    }
 
    onPreUpdate(engine) {
@@ -26,20 +24,31 @@ export class Shooter extends Actor {
 
       if (engine.input.keyboard.isHeld("ArrowUp")) {
          yspeed = -this.speed;
+         xspeed = 0;
+         this.lastDirection = new Vector(0, -1);
       }
       if (engine.input.keyboard.isHeld("ArrowDown")) {
          yspeed = this.speed;
+         xspeed = 0;
+         this.lastDirection = new Vector(0, 1);
       }
       if (engine.input.keyboard.isHeld("ArrowLeft")) {
          xspeed = -this.speed;
+         yspeed = 0;
+         this.lastDirection = new Vector(-1, 0);
       }
       if (engine.input.keyboard.isHeld("ArrowRight")) {
          xspeed = this.speed;
+         yspeed = 0;
+         this.lastDirection = new Vector(1, 0);
       }
       if (engine.input.keyboard.wasPressed(Keys.Space)) {
          console.log("SHOOT MOFO!")
       } 
 
       this.vel = new Vector(xspeed * 200, yspeed * 200);
+
+      // Zet de rotatie op basis van de richting
+      this.rotation = Math.atan2(this.lastDirection.y, this.lastDirection.x);
    }
 }

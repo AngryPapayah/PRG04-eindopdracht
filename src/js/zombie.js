@@ -27,7 +27,7 @@ export class Zombie extends Actor {
             this.rotation = Math.atan2(direction.y, direction.x);
 
             // Flip zombie afhankelijk van richting
-            this.graphics.flipHorizontal = this.vel.x > 0;
+            // this.graphics.flipHorizontal = this.vel.x > 0;
         });
 
     }
@@ -37,9 +37,7 @@ export class Zombie extends Actor {
         this.vel = new Vector(Math.random() * 100, Math.random() * 100);
         this.scale = new Vector(0.52, 0.52)
 
-        if (this.vel.x > 0) {
-            this.graphics.flipHorizontal = true;
-        }
+        
     }
 
 }
