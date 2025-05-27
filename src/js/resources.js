@@ -5,6 +5,7 @@ const Resources = {
     Shooter: new ImageSource('images/shooter.webp'),
     Zombie: new ImageSource('images/zombie.png'),
     Background: new ImageSource('images/background.png'),
+    Bullet: new ImageSource('images/bullet.png'),
 
 }
 

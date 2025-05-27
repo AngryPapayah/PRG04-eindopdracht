@@ -26,9 +26,10 @@ export class Game extends Engine {
 
         const shooter = new Shooter()
         this.add(shooter)
+        this.shooter = shooter // Bewaar de shooter in de Game
 
         for (let i = 0; i < 8; i++) {
-            const zombie = new Zombie()
+            const zombie = new Zombie(shooter) // Geef shooter mee
             this.add(zombie)
         }
 
