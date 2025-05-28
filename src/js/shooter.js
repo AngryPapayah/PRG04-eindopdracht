@@ -15,7 +15,7 @@ export class Shooter extends Actor {
 
    onInitialize(engine) {
       this.graphics.use(Resources.Shooter.toSprite());
-      this.pos = new Vector(1, 500);
+      // this.pos = new Vector(1, 500);
       this.scale = new Vector(0.18, 0.18);
    }
 
