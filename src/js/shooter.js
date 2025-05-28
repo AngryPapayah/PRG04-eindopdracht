@@ -50,5 +50,11 @@ export class Shooter extends Actor {
 
       // Zet de rotatie op basis van de richting
       this.rotation = Math.atan2(this.lastDirection.y, this.lastDirection.x);
+
+      // Houd de shooter binnen het scherm
+      const halfWidth = this.width * this.scale.x / 2;
+      const halfHeight = this.height * this.scale.y / 2;
+      this.pos.x = Math.max(halfWidth, Math.min(engine.drawWidth - halfWidth, this.pos.x));
+      this.pos.y = Math.max(halfHeight, Math.min(engine.drawHeight - halfHeight, this.pos.y));
    }
 }
