@@ -30,6 +30,14 @@ export class Zombie extends Actor {
             // this.graphics.flipHorizontal = this.vel.x > 0;
         });
 
+        this.on('collisionstart', (evt) => {
+            if (evt.other === this.shooter) {
+                // Botsing met de speler!
+                console.log("Zombie raakt de shooter!");
+                // Hier kun je bijvoorbeeld health verminderen of een game over triggeren
+            }
+        });
+
     }
 
     zombieRandomPosition() {
