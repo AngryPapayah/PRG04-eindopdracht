@@ -1,5 +1,6 @@
 import { Actor, Keys, Vector } from "excalibur";
 import { Resources } from './resources.js';
+import { Bullet } from './bullet.js'; // <-- voeg deze import toe
 
 
 export class Shooter extends Actor {
@@ -43,7 +44,12 @@ export class Shooter extends Actor {
          this.lastDirection = new Vector(1, 0);
       }
       if (engine.input.keyboard.wasPressed(Keys.Space)) {
-         console.log("SHOOT MOFO!")
+         // Maak een bullet aan en schiet in de kijkrichting
+         const bullet = new Bullet();
+         bullet.pos = this.pos.clone();
+         bullet.vel = this.lastDirection.scale(600); // snelheid aanpassen indien gewenst
+         bullet.rotation = this.rotation;
+         engine.add(bullet);
       } 
 
       this.vel = new Vector(xspeed * 200, yspeed * 200);

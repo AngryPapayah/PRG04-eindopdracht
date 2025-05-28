@@ -4,6 +4,7 @@ import { Resources, ResourceLoader } from './resources.js'
 import { Shooter } from './shooter.js'
 import { Zombie } from './zombie.js'
 import { Background } from './background.js'
+import { Bullet } from './bullet.js'
 
 export class Game extends Engine {
     shooter 
@@ -27,6 +28,7 @@ export class Game extends Engine {
         const shooter = new Shooter()
         this.add(shooter)
         this.shooter = shooter // Bewaar de shooter in de Game
+
 
         for (let i = 0; i < 8; i++) {
             const zombie = new Zombie(shooter) // Geef shooter mee
