@@ -1,34 +1,71 @@
-import { Actor, Color, Font, Label, Vector } from "excalibur";
+import { Actor, Color, Font, Label, Vector, Rectangle } from "excalibur";
 
 export class UI extends Actor {
     label;
     healthbar;
+    healthRect;
 
-    onInitialize(engine){
+    onInitialize(engine) {
         this.label = new Label({
-            text: 'Scoore: 0',
-            pos: new Vector(50, 50),
+            text: 'Score: 0',
+            pos: new Vector(100, 90),
             font: new Font({
                 family: 'Arial',
                 size: 24,
-                color: Color.Blue,
+                color: Color.Black,
             })
         });
 
-        let barbackground = new Actor({ x: 10, y: 40, color: Color.fromRGB(255, 255, 255, 0.4), width: 200, height: 20, anchor: Vector.Zero})
-        this.addChild(barbackground)
+        let barbackground = new Actor({
+            x: 10, y: 40,
+            width: 200, height: 20,
+            anchor: Vector.Zero
+        });
+        barbackground.graphics.use(new Rectangle({
+            width: 200,
+            height: 20,
+            color: Color.fromRGB(255, 255, 255, 0.4)
+        }));
+        this.addChild(barbackground);
 
-        this.healthbar = new Actor({ x: 10, y: 40, color: Color.Green, width: 200, height: 20, anchor: Vector.Zero })
-        this.addChild(this.healthbar)
+        this.healthbar = new Actor({
+            x: 10, y: 40,
+            width: 200, height: 20,
+            anchor: Vector.Zero
+        });
 
+        this.healthRect = new Rectangle({
+            width: 200,
+            height: 20,
+            color: Color.Green
+        });
+
+        this.healthbar.graphics.use(this.healthRect);
+        this.addChild(this.healthbar);
         this.addChild(this.label);
     }
 
-    reduceHealth() {
-        this.healthbar.scale = new Vector(0.5, 1) // de health is nu 50%
+    setHealth(percentage) {
+        console.log(`Health percentage: ${percentage}%`);
+        this.healthbar.scale = new Vector(percentage / 100, 1);
+
+        if (percentage > 50) {
+            this.healthRect.color = Color.Green;
+            console.log("Groen");
+        } else if (percentage > 20) {
+            this.healthRect.color = Color.Yellow;
+            console.log("Geel");
+        } else {
+            this.healthRect.color = Color.Red;
+            console.log("Rood");
+        }
     }
 
     updateScore(score) {
         this.label.text = `Score: ${score}`;
+    }
+
+    reduceHealth() {
+        this.setHealth(50); // de health is nu 50%
     }
 }

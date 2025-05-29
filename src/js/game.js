@@ -8,8 +8,10 @@ import { Bullet } from './bullet.js'
 import { UI } from './ui.js'
 
 export class Game extends Engine {
-    shooter 
-    
+    shooter;
+    score = 0;
+    ui;
+
     constructor() {
         super({
             width: 1280,
@@ -26,19 +28,32 @@ export class Game extends Engine {
         const background = new Background()
         this.add(background);
 
-        const shooter = new Shooter()
-        this.add(shooter)
-        this.shooter = shooter // Bewaar de shooter in de Game
-
-
-        for (let i = 0; i < 8; i++) {
-            const zombie = new Zombie(shooter) // Geef shooter mee
-            this.add(zombie)
-        }
-
         const ui = new UI();
         this.add(ui);
+        this.ui = ui;
 
+        const shooter = new Shooter()
+        shooter.ui = ui;
+        this.add(shooter)
+        this.shooter = shooter
+
+
+        // Spawn direct 8 zombies
+        for (let i = 0; i < 8; i++) {
+            const zombie = new Zombie(this.shooter);
+            this.add(zombie);
+        }
+    }
+
+    onPreUpdate() {
+        // Tel het aantal zombies in de scene
+        const zombies = this.currentScene.actors.filter(actor => actor instanceof Zombie);
+
+        // Zolang de shooter leeft, vul aan tot 8 zombies
+        if (this.shooter && !this.shooter.isKilled() && zombies.length < 4) {
+            const zombie = new Zombie(this.shooter);
+            this.add(zombie);
+        }
     }
 
 }
