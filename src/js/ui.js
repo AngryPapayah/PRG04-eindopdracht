@@ -88,4 +88,38 @@ export class UI extends Actor {
     reduceHealth() {
         this.setHealth(50); // de health is nu 50%
     }
+
+    showGameOver() {
+        this.gameOverLabel = new Label({
+            text: "Game Over",
+            pos: new Vector(500, 300),
+            font: new Font({
+                family: 'Arial',
+                size: 60,
+                color: Color.Red,
+                weight: 'bold'
+            })
+        });
+        this.addChild(this.gameOverLabel);
+
+        // Maak een HTML knop aan
+        let btn = document.createElement("button");
+        btn.innerText = "Restart";
+        btn.style.position = "absolute";
+        btn.style.left = "50%";
+        btn.style.top = "60%";
+        btn.style.transform = "translate(-50%, -50%)";
+        btn.style.fontSize = "2rem";
+        btn.id = "restart-btn";
+        document.body.appendChild(btn);
+
+        btn.onclick = () => {
+            btn.remove();
+            if (this.gameOverLabel) this.gameOverLabel.kill();
+            // Start de game opnieuw
+            if (this.scene && this.scene.engine && typeof this.scene.engine.startGame === "function") {
+                this.scene.engine.startGame();
+            }
+        };
+    }
 }

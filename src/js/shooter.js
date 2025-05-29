@@ -12,7 +12,7 @@ export class Shooter extends Actor {
    bulletCount = 0;
    maxBullets = 5;
    isReloading = false;
-   reloadTime = 2000;
+   reloadTime = 1500;
    speed = 3;
 
    constructor() {
@@ -41,8 +41,13 @@ export class Shooter extends Actor {
 
       if (this.health === 0) {
          this.kill();
-         if (this.scene && this.scene.engine && typeof this.scene.engine.startGame === "function") {
-            this.scene.engine.startGame();
+         // Toon Game Over
+         if (this.ui && typeof this.ui.showGameOver === "function") {
+            this.ui.showGameOver();
+         }
+         // Stop het spel: zet eventueel een flag in je Game class
+         if (this.scene && this.scene.engine) {
+            this.scene.engine.isGameOver = true;
          }
       }
    }
