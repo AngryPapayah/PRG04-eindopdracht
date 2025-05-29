@@ -51,13 +51,13 @@ export class UI extends Actor {
 
         if (percentage > 50) {
             this.healthRect.color = Color.Green;
-            console.log("Groen");
+            
         } else if (percentage > 20) {
             this.healthRect.color = Color.Yellow;
-            console.log("Geel");
+            
         } else {
             this.healthRect.color = Color.Red;
-            console.log("Rood");
+            
         }
     }
 
