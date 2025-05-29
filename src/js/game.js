@@ -6,6 +6,7 @@ import { Zombie } from './zombie.js'
 import { Background } from './background.js'
 import { Bullet } from './bullet.js'
 import { UI } from './ui.js'
+import { SpeedZombie } from './speedzombie.js'
 
 export class Game extends Engine {
     shooter;
@@ -43,16 +44,39 @@ export class Game extends Engine {
             const zombie = new Zombie(this.shooter);
             this.add(zombie);
         }
+
+        for (let i = 0; i < 2; i++) {
+            const speedZombie = new SpeedZombie(this.shooter);
+            this.add(speedZombie);
+        }
+
+        const speedZombie = new SpeedZombie(this.shooter);
+        this.add(speedZombie);
+
+
+    }
+
+    increaseZombieSpeed() {
+        const zombies = this.currentScene.actors.filter(actor => actor instanceof Zombie);
+        for (const zombie of zombies) {
+            zombie.speed *= 1.5; // Verhoog de snelheid van elke zombie met 10
+        }
     }
 
     onPreUpdate() {
         // Tel het aantal zombies in de scene
         const zombies = this.currentScene.actors.filter(actor => actor instanceof Zombie);
+        const speedZombies = this.currentScene.actors.filter(actor => actor instanceof SpeedZombie);
 
         // Zolang de shooter leeft, vul aan tot 8 zombies
         if (this.shooter && !this.shooter.isKilled() && zombies.length < 4) {
             const zombie = new Zombie(this.shooter);
             this.add(zombie);
+        }
+
+        if (this.shooter && !this.shooter.isKilled() && speedZombies.length < 2) {
+            const speedZombie = new SpeedZombie(this.shooter);
+            this.add(speedZombie);
         }
     }
 
