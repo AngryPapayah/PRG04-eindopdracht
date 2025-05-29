@@ -6,6 +6,7 @@ export class UI extends Actor {
     healthbar;
     healthRect;
     ammoLabel;
+    gameOverLabel;
 
     onInitialize(engine) {
         this.label = new Label({
