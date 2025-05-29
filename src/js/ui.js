@@ -1,12 +1,10 @@
 import { Actor, Color, Font, Label, Vector, Rectangle } from "excalibur";
-import { Resources } from './resources.js';
 
 export class UI extends Actor {
     label;
     healthbar;
     healthRect;
     ammoLabel;
-    gameOverLabel;
 
     onInitialize(engine) {
         this.label = new Label({
@@ -60,7 +58,7 @@ export class UI extends Actor {
     }
 
     updateAmmo(current, max) {
-        this.ammoLabel.text = `Ammo: ${max - current}/${max}`;
+        this.ammoLabel.text = `Ammo: ${current}/${max}`;
     }
 
     showReloading() {
