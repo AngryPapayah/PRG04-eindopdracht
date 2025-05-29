@@ -5,6 +5,7 @@ import { Shooter } from './shooter.js'
 import { Zombie } from './zombie.js'
 import { Background } from './background.js'
 import { Bullet } from './bullet.js'
+import { UI } from './ui.js'
 
 export class Game extends Engine {
     shooter 
@@ -34,6 +35,9 @@ export class Game extends Engine {
             const zombie = new Zombie(shooter) // Geef shooter mee
             this.add(zombie)
         }
+
+        const ui = new UI();
+        this.add(ui);
 
     }
 

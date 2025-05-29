@@ -4,7 +4,7 @@ import { Bullet } from './bullet.js'; // <-- voeg deze import toe
 
 
 export class Shooter extends Actor {
-   
+
 
    constructor() {
       super({
@@ -12,15 +12,15 @@ export class Shooter extends Actor {
          height: Resources.Shooter.height,
          collisionType: CollisionType.Active // <-- voeg toe
       });
-      
+
    }
    speed = 3;
-   // lastDirection = new Vector(1, 0); // standaard naar rechts
-
+   
    onInitialize(engine) {
       this.graphics.use(Resources.Shooter.toSprite());
-      // this.pos = new Vector(1, 500);
       this.scale = new Vector(0.18, 0.18);
+      // Zet de shooter in het midden van het scherm
+      this.pos = new Vector(engine.drawWidth / 2, engine.drawHeight / 2);
    }
 
    onPreUpdate(engine) {
@@ -30,40 +30,41 @@ export class Shooter extends Actor {
       if (engine.input.keyboard.isHeld("ArrowUp")) {
          yspeed = -this.speed;
          xspeed = 0;
-         // this.lastDirection = new Vector(0, -1);
-         this.rotation = Math.PI; // Draai de shooter naar boven
+
       }
       if (engine.input.keyboard.isHeld("ArrowDown")) {
          yspeed = this.speed;
          xspeed = 0;
-         // this.lastDirection = new Vector(0, 1);
-         this.rotation = 0; // Draai de shooter naar beneden
+
       }
       if (engine.input.keyboard.isHeld("ArrowLeft")) {
          xspeed = -this.speed;
          yspeed = 0;
-         // this.lastDirection = new Vector(-1, 0);
-         this.rotation = Math.PI / 2; // Draai de shooter naar links
+
       }
       if (engine.input.keyboard.isHeld("ArrowRight")) {
          xspeed = this.speed;
          yspeed = 0;
-         // this.lastDirection = new Vector(1, 0);
-         this.rotation = -Math.PI / 2; // Draai de shooter naar rechts
+
       }
       if (engine.input.keyboard.wasPressed(Keys.Space)) {
          // Maak een bullet aan en schiet in de kijkrichting
          const bullet = new Bullet();
          bullet.pos = this.pos.clone();
-         // bullet.vel = this.lastDirection.scale(600); // snelheid aanpassen indien gewenst
          bullet.rotation = this.rotation;
+
+         const direction = new Vector(Math.cos(this.rotation - Math.PI / 2), Math.sin(this.rotation - Math.PI / 2));
+         bullet.vel = direction.scale(500)
          engine.add(bullet);
-      } 
+      }
 
       this.vel = new Vector(xspeed * 200, yspeed * 200);
 
-      // Zet de rotatie op basis van de richting, zodat de sprite de juiste kant op kijkt
-      // this.rotation = Math.atan2(this.lastDirection.y, this.lastDirection.x) - Math.PI / 2;
+      if (xspeed !== 0 || yspeed !== 0) {
+         // Update de rotatie van de shooter op basis van de beweging
+         this.rotation = Math.atan2(yspeed, xspeed) + Math.PI / 2; 
+         // this.lastDirection = new Vector(xspeed, yspeed).normalize(); // update de laatste richting
+      }
 
       // Houd de shooter binnen het scherm
       const halfWidth = this.width * this.scale.x / 2;
