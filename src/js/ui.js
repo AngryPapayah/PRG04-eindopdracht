@@ -92,7 +92,6 @@ export class UI extends Actor {
     }
 
     showGameOver() {
-
         this.gameOverLabel = new Label({
             text: "Game Over",
             pos: new Vector(500, 300),
@@ -104,7 +103,6 @@ export class UI extends Actor {
             })
         });
         this.addChild(this.gameOverLabel);
-
 
         // Maak een HTML knop aan
         let btn = document.createElement("button");

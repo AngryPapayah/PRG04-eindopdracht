@@ -79,10 +79,9 @@ export class Game extends Engine {
             const speedZombie = new SpeedZombie(this.shooter);
             this.add(speedZombie);
         }
+    
 
-
-
-    }
+}
 
 }
 

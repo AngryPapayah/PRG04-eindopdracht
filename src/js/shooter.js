@@ -12,7 +12,7 @@ export class Shooter extends Actor {
    bulletCount = 0;
    maxBullets = 5;
    isReloading = false;
-   reloadTime = 1500;
+   reloadTime = 2000;
    speed = 3;
 
    constructor() {
