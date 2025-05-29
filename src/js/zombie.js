@@ -32,12 +32,8 @@ export class Zombie extends Actor {
         this.on('collisionstart', (event) => {
             if (event.other.owner === this.shooter) {
                 this.shooter.takeDamage(5);
-                
             }
         });
-
-        
-
     }
 
     zombieRandomPosition() {

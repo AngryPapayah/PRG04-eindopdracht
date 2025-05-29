@@ -1,4 +1,6 @@
 import { ImageSource, Sound, Resource, Loader } from 'excalibur'
+import { Background } from './background'
+import { Zombie } from './zombie'
 
 // voeg hier jouw eigen resources toe
 const Resources = {

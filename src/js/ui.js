@@ -1,4 +1,5 @@
 import { Actor, Color, Font, Label, Vector, Rectangle } from "excalibur";
+import { Resources } from './resources.js';
 
 export class UI extends Actor {
     label;
@@ -58,7 +59,7 @@ export class UI extends Actor {
     }
 
     updateAmmo(current, max) {
-        this.ammoLabel.text = `Ammo: ${current}/${max}`;
+        this.ammoLabel.text = `Ammo: ${max - current}/${max}`;
     }
 
     showReloading() {
@@ -90,6 +91,7 @@ export class UI extends Actor {
     }
 
     showGameOver() {
+
         this.gameOverLabel = new Label({
             text: "Game Over",
             pos: new Vector(500, 300),
@@ -101,6 +103,7 @@ export class UI extends Actor {
             })
         });
         this.addChild(this.gameOverLabel);
+
 
         // Maak een HTML knop aan
         let btn = document.createElement("button");

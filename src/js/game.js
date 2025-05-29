@@ -38,11 +38,11 @@ export class Game extends Engine {
         this.add(shooter)
         this.shooter = shooter
 
-
         // Spawn direct 8 zombies
         for (let i = 0; i < 8; i++) {
             const zombie = new Zombie(this.shooter);
             this.add(zombie);
+
         }
 
         for (let i = 0; i < 2; i++) {
@@ -79,7 +79,7 @@ export class Game extends Engine {
             const speedZombie = new SpeedZombie(this.shooter);
             this.add(speedZombie);
         }
-        if (this.isGameOver) return;
+
 
 
     }

@@ -41,13 +41,8 @@ export class Shooter extends Actor {
 
       if (this.health === 0) {
          this.kill();
-         // Toon Game Over
-         if (this.ui && typeof this.ui.showGameOver === "function") {
-            this.ui.showGameOver();
-         }
-         // Stop het spel: zet eventueel een flag in je Game class
-         if (this.scene && this.scene.engine) {
-            this.scene.engine.isGameOver = true;
+         if (this.scene && this.scene.engine && typeof this.scene.engine.startGame === "function") {
+            this.scene.engine.startGame();
          }
       }
    }
