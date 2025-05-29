@@ -74,11 +74,14 @@ export class Game extends Engine {
             this.add(zombie);
         }
 
+        // Vul aan tot 2 speedzombies
         if (this.shooter && !this.shooter.isKilled() && speedZombies.length < 2) {
             const speedZombie = new SpeedZombie(this.shooter);
             this.add(speedZombie);
         }
-    }
+    
+
+}
 
 }
 

@@ -4,6 +4,7 @@ export class UI extends Actor {
     label;
     healthbar;
     healthRect;
+    ammoLabel;
 
     onInitialize(engine) {
         this.label = new Label({
@@ -40,9 +41,28 @@ export class UI extends Actor {
             color: Color.Green
         });
 
+        this.ammoLabel = new Label({
+            text: 'Ammo: 5/5',
+            pos: new Vector(100, 120), // iets onder de score
+            font: new Font({
+                family: 'Arial',
+                size: 24,
+                color: Color.Black,
+            })
+        });
+        this.addChild(this.ammoLabel);
+
         this.healthbar.graphics.use(this.healthRect);
         this.addChild(this.healthbar);
         this.addChild(this.label);
+    }
+
+    updateAmmo(current, max) {
+        this.ammoLabel.text = `Ammo: ${current}/${max}`;
+    }
+
+    showReloading() {
+        this.ammoLabel.text = 'Reloading...';
     }
 
     setHealth(percentage) {
@@ -51,13 +71,13 @@ export class UI extends Actor {
 
         if (percentage > 50) {
             this.healthRect.color = Color.Green;
-            
+
         } else if (percentage > 20) {
             this.healthRect.color = Color.Yellow;
-            
+            console.log("Geel");
         } else {
             this.healthRect.color = Color.Red;
-            
+            console.log("Rood");
         }
     }
 

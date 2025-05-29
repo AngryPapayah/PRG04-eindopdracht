@@ -1,15 +1,28 @@
-import { Actor, Vector} from 'excalibur'
-import { Resources } from './resources.js'
+import { Actor, Vector } from "excalibur";
+import { Resources } from "./resources";
 
 export class Background extends Actor {
+    constructor() {
+        super({
+            anchor: Vector.Zero
+        });
+        this.speed = 4;
+    }
+
     onInitialize(engine) {
-        const backgroundSprite = Resources.Background.toSprite()
-        this.graphics.use(backgroundSprite)
+        const sprite = Resources.Background.toSprite();
+        const scaleX = engine.drawWidth / sprite.width;
+        const scaleY = engine.drawHeight / sprite.height;
+        sprite.scale = new Vector(scaleX, scaleY);
+        this.graphics.use(sprite);
+        // Let op: de positie wordt buiten deze class gezet bij het aanmaken!
+    }
 
-        this.pos = new Vector(engine.drawWidth / 2, engine.drawHeight / 2)
-
-        const scaleX = engine.drawWidth / backgroundSprite.width
-        const scaleY = engine.drawHeight / backgroundSprite.height
-        this.scale = new Vector(scaleX, scaleY)
+    onPreUpdate(engine, delta) {
+        if (engine.shooter) {
+            // Laat de achtergrond meebewegen met de shooter
+            this.pos.y = Math.floor(engine.shooter.pos.y / engine.drawHeight) * engine.drawHeight;
+            this.pos.x = 0;
+        }
     }
 }
