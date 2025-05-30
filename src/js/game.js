@@ -12,6 +12,7 @@ export class Game extends Engine {
     shooter;
     score = 0;
     ui;
+    isGameOver = false;
 
     constructor() {
         super({
