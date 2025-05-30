@@ -9,7 +9,7 @@ export class Shooter extends Actor {
    ui = null;
    health = 100;
 
-   bulletCount = 0;
+   bulletCount = 5; // Begin met volle ammo
    maxBullets = 5;
    isReloading = false;
    reloadTime = 1500;
@@ -41,11 +41,9 @@ export class Shooter extends Actor {
 
       if (this.health === 0) {
          this.kill();
-         // Toon Game Over
          if (this.ui && typeof this.ui.showGameOver === "function") {
             this.ui.showGameOver();
          }
-         // Stop het spel: zet eventueel een flag in je Game class
          if (this.scene && this.scene.engine) {
             this.scene.engine.isGameOver = true;
          }
@@ -56,10 +54,12 @@ export class Shooter extends Actor {
       if (this.isReloading) return;
 
       this.isReloading = true;
-      if (this.ui) this.ui.showReloading();
+      if (this.ui && typeof this.ui.showReloading === "function") {
+         this.ui.showReloading();
+      }
 
       setTimeout(() => {
-         this.bulletCount = 0;
+         this.bulletCount = this.maxBullets; // Volledig herladen
          this.isReloading = false;
 
          if (this.ui) {
@@ -79,55 +79,52 @@ export class Shooter extends Actor {
 
       // Schieten met spatie
       if (engine.input.keyboard.wasPressed(Keys.Space)) {
-         if (!this.isReloading) {
-            if (this.bulletCount < this.maxBullets) {
-               this.bulletCount++;
+         if (!this.isReloading && this.bulletCount > 0) {
+            this.bulletCount--; // Aftellen
 
-               let nearestZombie = null;
-               let minDist = Infinity;
-               for (const actor of engine.currentScene.actors) {
-                  if (actor instanceof Zombie) {
-                     const dist = this.pos.distance(actor.pos);
-                     if (dist < minDist) {
-                        minDist = dist;
-                        nearestZombie = actor;
-                     }
+            let nearestZombie = null;
+            let minDist = Infinity;
+            for (const actor of engine.currentScene.actors) {
+               if (actor instanceof Zombie) {
+                  const dist = this.pos.distance(actor.pos);
+                  if (dist < minDist) {
+                     minDist = dist;
+                     nearestZombie = actor;
                   }
                }
+            }
 
-               let direction;
-               if (nearestZombie) {
-                  direction = nearestZombie.pos.sub(this.pos).normalize();
-               } else {
-                  direction = new Vector(Math.cos(this.rotation - Math.PI / 2), Math.sin(this.rotation - Math.PI / 2));
-               }
+            let direction;
+            if (nearestZombie) {
+               direction = nearestZombie.pos.sub(this.pos).normalize();
+            } else {
+               direction = new Vector(Math.cos(this.rotation - Math.PI / 2), Math.sin(this.rotation - Math.PI / 2));
+            }
 
-               const bullet = new Bullet();
-               bullet.pos = this.pos.clone();
-               bullet.rotation = Math.atan2(direction.y, direction.x) + Math.PI / 2;
-               bullet.vel = direction.scale(500);
-               engine.add(bullet);
+            const bullet = new Bullet();
+            bullet.pos = this.pos.clone();
+            bullet.rotation = Math.atan2(direction.y, direction.x) + Math.PI / 2;
+            bullet.vel = direction.scale(500);
+            engine.add(bullet);
 
-               if (this.ui) this.ui.updateAmmo(this.bulletCount, this.maxBullets);
+            if (this.ui) this.ui.updateAmmo(this.bulletCount, this.maxBullets);
 
-               // Automatisch reloaden als max bereikt is
-               if (this.bulletCount >= this.maxBullets) {
-                  this.startReloading(engine);
-               }
+            // Automatisch reloaden als ammo op is
+            if (this.bulletCount === 0) {
+               this.startReloading(engine);
             }
          }
       }
 
-      // Reload handmatig met R
+      // Handmatig reloaden met R
       if (engine.input.keyboard.wasPressed(Keys.R)) {
-         if (!this.isReloading && this.bulletCount > 0) {
+         if (!this.isReloading) {
             this.startReloading(engine);
          }
       }
 
       // Beweging
       this.vel = new Vector(xspeed * 200, yspeed * 200);
-
       if (xspeed !== 0 || yspeed !== 0) {
          this.rotation = Math.atan2(yspeed, xspeed) + Math.PI / 2;
       }
