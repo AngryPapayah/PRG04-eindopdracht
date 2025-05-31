@@ -6,7 +6,7 @@ export class Background extends Actor {
         super({
             anchor: Vector.Zero
         });
-        this.speed = 4;
+        
     }
 
     onInitialize(engine) {
