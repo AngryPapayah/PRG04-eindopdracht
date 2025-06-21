@@ -2,9 +2,9 @@ import { Actor, Color, Font, Label, Vector, Rectangle } from "excalibur";
 
 export class UI extends Actor {
     label;
-    healthbar;
-    healthRect;
-    ammoLabel;
+    #healthbar;
+    #healthRect;
+    #ammoLabel;
 
     onInitialize(engine) {
         this.label = new Label({
@@ -29,19 +29,19 @@ export class UI extends Actor {
         }));
         this.addChild(barbackground);
 
-        this.healthbar = new Actor({
+        this.#healthbar = new Actor({
             x: 10, y: 40,
             width: 200, height: 20,
             anchor: Vector.Zero
         });
 
-        this.healthRect = new Rectangle({
+        this.#healthRect = new Rectangle({
             width: 200,
             height: 20,
             color: Color.Green
         });
 
-        this.ammoLabel = new Label({
+        this.#ammoLabel = new Label({
             text: 'Ammo: 5/5',
             pos: new Vector(100, 120), // iets onder de score
             font: new Font({
@@ -50,33 +50,33 @@ export class UI extends Actor {
                 color: Color.Black,
             })
         });
-        this.addChild(this.ammoLabel);
+        this.addChild(this.#ammoLabel);
 
-        this.healthbar.graphics.use(this.healthRect);
-        this.addChild(this.healthbar);
+        this.#healthbar.graphics.use(this.#healthRect);
+        this.addChild(this.#healthbar);
         this.addChild(this.label);
     }
 
     updateAmmo(current, max) {
-        this.ammoLabel.text = `Ammo: ${current}/${max}`;
+        this.#ammoLabel.text = `Ammo: ${current}/${max}`;
     }
 
     showReloading() {
-        this.ammoLabel.text = 'Reloading...';
+        this.#ammoLabel.text = 'Reloading...';
     }
 
     setHealth(percentage) {
         console.log(`Health percentage: ${percentage}%`);
-        this.healthbar.scale = new Vector(percentage / 100, 1);
+        this.#healthbar.scale = new Vector(percentage / 100, 1);
 
         if (percentage > 50) {
-            this.healthRect.color = Color.Green;
+            this.#healthRect.color = Color.Green;
 
         } else if (percentage > 20) {
-            this.healthRect.color = Color.Yellow;
+            this.#healthRect.color = Color.Yellow;
             console.log("Geel");
         } else {
-            this.healthRect.color = Color.Red;
+            this.#healthRect.color = Color.Red;
             console.log("Rood");
         }
     }
@@ -97,7 +97,7 @@ export class UI extends Actor {
                 family: 'Arial',
                 size: 60,
                 color: Color.Red,
-                weight: 'bold'
+                // weight: 'bold'
             })
         });
         this.addChild(this.gameOverLabel);

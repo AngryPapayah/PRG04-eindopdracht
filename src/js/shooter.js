@@ -7,13 +7,13 @@ import { UI } from "./ui.js";
 export class Shooter extends Actor {
    /** @type {UI|null} */
    ui = null;
-   health = 100;
-
-   bulletCount = 5; // Begin met volle ammo
-   maxBullets = 5;
+   #health = 100;
+   bulletCount = 5; 
+   // Begin met volle ammo
+   #maxBullets = 5;
    isReloading = false;
-   reloadTime = 1500;
-   speed = 3;
+   #reloadTime = 1500;
+   #speed = 3;
 
    constructor() {
       super({
@@ -29,17 +29,17 @@ export class Shooter extends Actor {
       this.pos = new Vector(engine.drawWidth / 2, engine.drawHeight / 2);
 
       if (this.ui) {
-         this.ui.setHealth(this.health);
-         this.ui.updateAmmo(this.bulletCount, this.maxBullets);
+         this.ui.setHealth(this.#health);
+         this.ui.updateAmmo(this.bulletCount, this.#maxBullets);
       }
    }
 
    takeDamage(amount) {
-      this.health -= amount;
-      if (this.health < 0) this.health = 0;
-      if (this.ui) this.ui.setHealth(this.health);
+      this.#health -= amount;
+      if (this.#health < 0) this.#health = 0;
+      if (this.ui) this.ui.setHealth(this.#health);
 
-      if (this.health === 0) {
+      if (this.#health === 0) {
          this.kill();
          if (this.ui && typeof this.ui.showGameOver === "function") {
             this.ui.showGameOver();
@@ -59,23 +59,23 @@ export class Shooter extends Actor {
       }
 
       setTimeout(() => {
-         this.bulletCount = this.maxBullets; // Volledig herladen
+         this.bulletCount = this.#maxBullets; // Volledig herladen
          this.isReloading = false;
 
          if (this.ui) {
-            this.ui.updateAmmo(this.bulletCount, this.maxBullets);
+            this.ui.updateAmmo(this.bulletCount, this.#maxBullets);
          }
-      }, this.reloadTime);
+      }, this.#reloadTime);
    }
 
    onPreUpdate(engine) {
       let xspeed = 0;
       let yspeed = 0;
 
-      if (engine.input.keyboard.isHeld(Keys.W)) yspeed = -this.speed;
-      if (engine.input.keyboard.isHeld(Keys.S)) yspeed = this.speed;
-      if (engine.input.keyboard.isHeld(Keys.A)) xspeed = -this.speed;
-      if (engine.input.keyboard.isHeld(Keys.D)) xspeed = this.speed;
+      if (engine.input.keyboard.isHeld(Keys.W)) yspeed = -this.#speed;
+      if (engine.input.keyboard.isHeld(Keys.S)) yspeed = this.#speed;
+      if (engine.input.keyboard.isHeld(Keys.A)) xspeed = -this.#speed;
+      if (engine.input.keyboard.isHeld(Keys.D)) xspeed = this.#speed;
 
       // Schieten met spatie
       if (engine.input.keyboard.wasPressed(Keys.Space)) {
@@ -107,7 +107,7 @@ export class Shooter extends Actor {
             bullet.vel = direction.scale(500);
             engine.add(bullet);
 
-            if (this.ui) this.ui.updateAmmo(this.bulletCount, this.maxBullets);
+            if (this.ui) this.ui.updateAmmo(this.bulletCount, this.#maxBullets);
 
             // Automatisch reloaden als ammo op is
             if (this.bulletCount === 0) {
